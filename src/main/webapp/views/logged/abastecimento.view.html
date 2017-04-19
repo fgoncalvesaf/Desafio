@@ -1,0 +1,117 @@
+<ion-view cache-view="false" view-title="Abastecimento" hide-back-button="true">
+  <ion-nav-buttons side="right">
+    <button class="button button-stable" ng-hide="Abastecimento.inserting || Abastecimento.editing" ng-click="Abastecimento.startInserting()"> <i class="icon ion-plus-round"></i> </button>
+    <button class="button button-stable" ng-show="Abastecimento.inserting || Abastecimento.editing" ng-click="Abastecimento.post()"> <i class="icon ion-checkmark"></i> </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon button-clear ion-navicon" ng-hide="Abastecimento.inserting || Abastecimento.editing" menu-toggle="left"> </button>
+    <button class="button button-stable" ng-show="Abastecimento.inserting || Abastecimento.editing" ng-click="Abastecimento.cancel()"> <i class="icon ion-android-arrow-back"></i> </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div class="list list-inset" ng-hide="Abastecimento.editing || Abastecimento.inserting">
+      <label class="item item-input">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="text" placeholder="{{'template.crud.search' | translate}}" ng-model="query" value="%"> </label>
+    </div>
+    <div class="component-holder ng-binding ng-scope ui-draggable ui-draggable-handle" data-component="crn-datasource" id="crn-datasource-906854">
+      <datasource filter="{{query == '' || query == null ? null : ('/listByCarro/' + query)}}" name="Abastecimento" entity="api/rest/Abastecimento" keys="id" rows-per-page="100" delete-message="Deseja remover?" class=""></datasource>
+    </div>
+    <div crn-datasource="Abastecimento" class="" ng-hide="Abastecimento.editing || Abastecimento.inserting">
+      <ion-list can-swipe="listCanSwipe">
+        <ion-item ng-repeat="rowData in datasource.data" class="item" ng-click="datasource.startEditing(rowData)">
+          <div class="row">
+            <div class="col">
+              {{rowData.carro.placa}}
+            </div>
+            <div class="col">
+              {{rowData.posto.nome}}
+            </div>
+            <div class="col">
+              {{rowData.preco_por_litro}}
+            </div>
+          </div>
+          <ion-option-button class="button-positive" ng-click="datasource.startEditing(rowData)">
+            <i class="icon ion-edit"></i>
+          </ion-option-button>
+          <ion-option-button class="button-assertive" ng-click="datasource.remove(rowData)">
+            &nbsp;
+            <i class="icon ion-trash-a"></i>
+          </ion-option-button>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div ng-show="Abastecimento.editing || Abastecimento.inserting">
+      <form crn-datasource="Abastecimento">
+        <fieldset ng-disabled="!datasource.editing &amp;&amp; !datasource.inserting">
+          <div class="list">
+            <!-- carro begin -->
+            <datasource name="Carro" entity="api/rest/Carro" keys="id" class=""></datasource>
+            <label for="textinput-carro" class="item item-input item-select">
+              <span class="input-label">carro</span>
+              <select ng-model="Abastecimento.active.carro" class="form-control" id="textinput-carro" name="textinput-carro" ng-options="opt as opt.placa for opt in Carro.data track by opt.id" >
+              <option value=''>None</option>
+              </select>
+            </label>
+            <!-- posto begin -->
+            <datasource name="Posto" entity="api/rest/Posto" keys="id" class=""></datasource>
+            <label for="textinput-posto" class="item item-input item-select">
+              <span class="input-label">posto</span>
+              <select ng-model="Abastecimento.active.posto" class="form-control" id="textinput-posto" name="textinput-posto" ng-options="opt as opt.nome for opt in Posto.data track by opt.id" >
+              <option value=''>None</option>
+              </select>
+            </label>
+            <!-- data_abastecimento begin -->
+            <label for="textinput-data_abastecimento" class="item item-input item-stacked-label">
+            <span class="input-label">Data _abastecimento</span>
+            <input type="date" placeholder="Data _abastecimento" ng-model="Abastecimento.active.data_abastecimento" id="textinput-data_abastecimento" name="textinput-data_abastecimento"  >
+            </label>
+            <!-- quilometragem_rodada begin -->
+            <label for="textinput-quilometragem_rodada" class="item item-input item-stacked-label">
+            <span class="input-label">Quilometragem _rodada</span>
+            <input
+            type="text"
+            placeholder="Quilometragem _rodada"
+            ng-model="Abastecimento.active.quilometragem_rodada"
+            id="textinput-quilometragem_rodada"
+            name="textinput-quilometragem_rodada"
+            >
+            </label>
+            <!-- litros begin -->
+            <label for="textinput-litros" class="item item-input item-stacked-label">
+            <span class="input-label">Litros</span>
+            <input
+            type="text"
+            placeholder="Litros"
+            ng-model="Abastecimento.active.litros"
+            id="textinput-litros"
+            name="textinput-litros"
+            >
+            </label>
+            <!-- combustivel begin -->
+            <label for="textinput-combustivel" class="item item-input item-stacked-label">
+            <span class="input-label">Combustivel</span>
+            <input
+            type="text"
+            placeholder="Combustivel"
+            ng-model="Abastecimento.active.combustivel"
+            id="textinput-combustivel"
+            name="textinput-combustivel"
+            >
+            </label>
+            <!-- preco_por_litro begin -->
+            <label for="textinput-preco_por_litro" class="item item-input item-stacked-label">
+            <span class="input-label">Preco _por _litro</span>
+            <input
+            type="text"
+            placeholder="Preco _por _litro"
+            ng-model="Abastecimento.active.preco_por_litro"
+            id="textinput-preco_por_litro"
+            name="textinput-preco_por_litro"
+            >
+            </label>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </ion-content>
+</ion-view>
